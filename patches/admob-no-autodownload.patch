@@ -1,0 +1,41 @@
+Local patch for poingstudios/godot-admob-plugin v5.1.0 (game-template).
+
+Removes the plugin's automatic binary download:
+- admob.gd: BinaryInstaller.install_missing_binaries_sync() would run
+  `which curl` + `curl -L -o ...` via OS.execute in headless mode when
+  addons/admob/{android,ios}/bin/package.gd is missing.
+- editor_menu.gd: check_dependencies() would auto-download the same files
+  with HTTPRequest when the GUI editor starts.
+The binaries are committed instead (see docs/plugin-review.md).
+
+Re-apply after every plugin update:  git apply patches/admob-no-autodownload.patch
+Check it is applied:                  make plugin-check
+
+--- a/addons/admob/admob.gd	2026-10-24 19:47:35.113198126 +0200
++++ b/addons/admob/admob.gd	2026-10-24 19:47:35.125536277 +0200
+@@ -38,7 +38,8 @@
+ 
+ func _enter_tree() -> void:
+ 	CSharpService.manage_visibility(self)
+-	BinaryInstaller.install_missing_binaries_sync()
++	# LOCAL PATCH (patches/admob-no-autodownload.patch): never download or shell out.
++	# BinaryInstaller.install_missing_binaries_sync()
+ 	ProjectSettingsService.register_settings()
+ 
+ 	add_export_plugin(_main_exporter)
+--- a/addons/admob/internal/editor/editor_menu.gd	2026-10-24 19:47:35.118161994 +0200
++++ b/addons/admob/internal/editor/editor_menu.gd	2026-10-24 19:47:35.127141494 +0200
+@@ -58,9 +58,10 @@
+ 	_android_handler = AndroidHandler.new(DownloadService.new(host), _dialog_service)
+ 	_ios_handler = IOSHandler.new(DownloadService.new(host), _dialog_service)
+ 
+-	if DisplayServer.get_name() != "headless":
+-		_android_handler.check_dependencies()
+-		_ios_handler.check_dependencies()
++	# LOCAL PATCH (patches/admob-no-autodownload.patch): no automatic download on editor start.
++	# if DisplayServer.get_name() != "headless":
++	# 	_android_handler.check_dependencies()
++	# 	_ios_handler.check_dependencies()
+ 
+ 	_setup_menu()
+ 

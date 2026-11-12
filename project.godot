@@ -1,0 +1,87 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Template Hop"
+config/version="0.1.0"
+run/main_scene="res://scenes/boot/boot.tscn"
+config/quit_on_go_back=false
+config/features=PackedStringArray("4.7", "Mobile")
+boot_splash/bg_color=Color(0.53, 0.81, 0.92, 1)
+boot_splash/show_image=false
+config/icon="res://icon.svg"
+
+[autoload]
+
+SaveService="*res://autoload/save_service.gd"
+SettingsService="*res://autoload/settings_service.gd"
+AudioService="*res://autoload/audio_service.gd"
+AnalyticsService="*res://autoload/analytics_service.gd"
+AdService="*res://autoload/ad_service.gd"
+PurchaseService="*res://autoload/purchase_service.gd"
+SceneRouter="*res://autoload/scene_router.gd"
+
+[debug]
+
+gdscript/warnings/untyped_declaration=2
+gdscript/warnings/unsafe_property_access=1
+gdscript/warnings/unsafe_method_access=1
+
+[display]
+
+window/size/viewport_width=1080
+window/size/viewport_height=1920
+window/size/window_width_override=540
+window/size/window_height_override=960
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=1
+
+[editor_plugins]
+
+enabled=PackedStringArray()
+
+[game]
+
+config/scene="res://games/hop/hop.tscn"
+ads/interstitial_every_n_runs=3
+iap/remove_ads_product_id="remove_ads"
+ads/android_interstitial="ca-app-pub-3940256099942544/1033173712"
+ads/android_rewarded="ca-app-pub-3940256099942544/5224354917"
+ads/ios_interstitial="ca-app-pub-3940256099942544/4411468910"
+ads/ios_rewarded="ca-app-pub-3940256099942544/1712485313"
+ads/debug_consent_eea=true
+ads/test_device_hashed_ids=""
+ads/enabled=false
+iap/enabled=false
+feedback/url=""
+
+[gui]
+
+theme/custom="res://ui/theme.tres"
+
+[input_devices]
+
+buffering/agile_event_flushing=true
+pointing/emulate_touch_from_mouse=true
+
+[physics]
+
+common/physics_ticks_per_second=120
+common/max_physics_steps_per_frame=16
+common/physics_jitter_fix=0.0
+common/physics_interpolation=true
+
+[rendering]
+
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0.53, 0.81, 0.92, 1)

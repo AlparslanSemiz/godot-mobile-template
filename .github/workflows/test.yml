@@ -1,0 +1,64 @@
+# Runs `make test` (config check, lint, GUT) and `make smoke` on every push
+# and pull request. Godot is the official pinned build, verified against the
+# release's SHA512-SUMS.txt and a pinned hash, and cached. Only official
+# GitHub actions, pinned to full commit SHAs.
+name: test
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["**.md"]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      GODOT_VERSION: 4.7.2-stable
+      # SHA-512 of Godot_v4.7.2-stable_linux.x86_64.zip (godotengine/godot-builds SHA512-SUMS.txt).
+      GODOT_SHA512: 9aa00f7a605200940bce3027a567b782f49bd8e940dd06ae9e987bd65aee1b1467edd56ed84fcdcbdd44354bf613bdbb4e5d2913e925850368e150c59ed54c65
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Cache Godot
+        id: cache-godot
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/godot
+          key: godot-${{ env.GODOT_VERSION }}-linux-x86_64
+
+      - name: Download Godot (verified)
+        if: steps.cache-godot.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/godot && cd ~/godot
+          base="https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}"
+          zip="Godot_v${GODOT_VERSION}_linux.x86_64.zip"
+          curl -fsSL -o "$zip" "$base/$zip"
+          curl -fsSL -o SHA512-SUMS.txt "$base/SHA512-SUMS.txt"
+          grep " $zip\$" SHA512-SUMS.txt | sha512sum -c -
+          echo "$GODOT_SHA512  $zip" | sha512sum -c -
+          unzip -q "$zip" && rm "$zip"
+
+      - name: make test
+        run: make test GODOT="$HOME/godot/Godot_v${GODOT_VERSION}_linux.x86_64"
+
+      - name: make smoke
+        run: make smoke GODOT="$HOME/godot/Godot_v${GODOT_VERSION}_linux.x86_64"
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: test-logs
+          path: |
+            builds/smoke.log
+            builds/test-results.xml
+          if-no-files-found: ignore
