@@ -1,10 +1,10 @@
 # Godot Mobile Template
 
-A production-ready starting point for **mobile games in Godot 4.7** — GDScript with static typing, portrait 1080x1920 by default, Android (APK/AAB) and iOS exports, and a small *Hop* demo game that is playable out of the box.
+A production-ready starting point for **mobile games in Godot 4.7**: GDScript with static typing, portrait 1080x1920 by default, Android (APK/AAB) and iOS exports, and a small *Hop* demo game that is playable out of the box.
 
 What makes it different from an empty project:
 
-- **Tuned for feel.** Frame pacing, input and physics settings chosen and measured on a 120 Hz phone — see [FEEL.md](FEEL.md).
+- **Tuned for feel.** Frame pacing, input and physics settings chosen and measured on a 120 Hz phone. See [FEEL.md](FEEL.md).
 - **Tested headless.** `make test` lints every script with zero warnings allowed and runs GUT unit tests; `make smoke` plays 10 seconds with scripted taps and fails on any error; `make capture` records that session to MP4. All of it runs in CI.
 - **One file to rebrand.** Name, package id, version, orientation, ads and IAP switches all live in `game.cfg`.
 - **Ads and in-app purchases ready, but off.** AdMob (with UMP consent) and Google Play Billing are wired behind small services; while switched off, the SDKs are not even in the build.
@@ -64,7 +64,7 @@ Game code only talks to the autoloads, never to an SDK or plugin directly. An SD
 
 GUT 9.7.1 was chosen over gdUnit4 6.2.2 because:
 
-- GUT publishes a release specifically for this engine line (`godot_4_7` branch, compatibility table: "GUT 9.7.1 — 4.7.x"). gdUnit4's table lists 4.5 through 4.7.1, not 4.7.2.
+- GUT publishes a release specifically for this engine line (`godot_4_7` branch, compatibility table: "GUT 9.7.1: 4.7.x"). gdUnit4's table lists 4.5 through 4.7.1, not 4.7.2.
 - It is pure GDScript in one folder with a stable headless CLI (`godot --headless -s addons/gut/gut_cmdln.gd`, exit code 1 on failure, JUnit XML output). gdUnit4 is larger and includes C# and editor tooling we don't need.
 - It can assert on `push_warning`/`push_error` and fails a test on unexpected engine errors by default, which matches the "no warnings" rule.
 
@@ -112,4 +112,4 @@ Nothing signing-related is ever written to the repo. `export_credentials.cfg` (G
 
 ## License
 
-MIT for the template's own code. Bundled third-party addons keep their own licenses: GUT (MIT), Poing Studios AdMob plugin (MIT), GodotGooglePlayBilling (MIT) — see each folder in `addons/`.
+MIT for the template's own code. Bundled third-party addons keep their own licenses: GUT (MIT), Poing Studios AdMob plugin (MIT), GodotGooglePlayBilling (MIT). See each folder in `addons/`.
