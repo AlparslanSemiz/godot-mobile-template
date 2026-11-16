@@ -17,7 +17,7 @@ An empty Godot project leaves you to set up export presets, input latency, tests
 What makes it different from an empty project:
 
 - **Tuned for feel.** Frame pacing, input and physics settings chosen and measured on a 120 Hz phone. See [FEEL.md](FEEL.md).
-- **Tested headless.** `make test` lints every script with zero warnings allowed and runs GUT unit tests; `make smoke` plays 10 seconds with scripted taps and fails on any error; `make capture` records that session to MP4. All of it runs in CI.
+- **Tested headless.** `make test` lints every script with zero warnings allowed and runs GUT unit tests; `make smoke` plays 10 seconds with scripted taps and fails on any error; `make capture` records that session to MP4. CI runs `make test` and `make smoke`; `make capture` runs locally.
 - **One file to rebrand.** Name, package id, version, orientation, ads and IAP switches all live in `game.cfg`.
 - **Ads and in-app purchases ready, but off.** AdMob (with UMP consent) and Google Play Billing are wired behind small services; while switched off, the SDKs are not even in the build.
 - **Agent-friendly.** [CLAUDE.md](CLAUDE.md) gives AI coding agents (Claude Code, Codex, Gemini) the rules, layout and definition of done.
