@@ -1,11 +1,23 @@
-# Godot Mobile Template
+<h1 align="center">Godot Mobile Template</h1>
+<p align="center">A starting point for mobile games in Godot 4.7: tuned input and frame pacing, headless tests, Android and iOS exports, and a playable demo game.</p>
 
-A production-ready starting point for **mobile games in Godot 4.7**: GDScript with static typing, portrait 1080x1920 by default, Android (APK/AAB) and iOS exports, and a small *Hop* demo game that is playable out of the box.
+<p align="center">
+<a href="https://github.com/AlparslanSemiz/godot-mobile-template/actions/workflows/test.yml"><img src="https://img.shields.io/github/actions/workflow/status/AlparslanSemiz/godot-mobile-template/test.yml?style=flat&label=test" alt="test"></a>
+<img src="https://img.shields.io/badge/Godot-4.7.2-555?style=flat" alt="Godot 4.7.2">
+<img src="https://img.shields.io/badge/platform-Android%20%7C%20iOS-555?style=flat" alt="Android and iOS">
+<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-555?style=flat" alt="MIT license"></a>
+</p>
+
+<p align="center"><b><a href="https://github.com/new?template_name=godot-mobile-template&template_owner=AlparslanSemiz">Use this template</a></b> · <a href="#start-a-new-game-from-this-template">steps</a></p>
+
+## Why
+
+An empty Godot project leaves you to set up export presets, input latency, tests, ads and a rebrand workflow before the first game line. This template has those done, with a small *Hop* demo game (GDScript with static typing, portrait 1080x1920 by default) that plays out of the box.
 
 What makes it different from an empty project:
 
 - **Tuned for feel.** Frame pacing, input and physics settings chosen and measured on a 120 Hz phone. See [FEEL.md](FEEL.md).
-- **Tested headless.** `make test` lints every script with zero warnings allowed and runs GUT unit tests; `make smoke` plays 10 seconds with scripted taps and fails on any error; `make capture` records that session to MP4. All of it runs in CI.
+- **Tested headless.** `make test` lints every script with zero warnings allowed and runs GUT unit tests; `make smoke` plays 10 seconds with scripted taps and fails on any error; `make capture` records that session to MP4. CI runs `make test` and `make smoke`; `make capture` runs locally.
 - **One file to rebrand.** Name, package id, version, orientation, ads and IAP switches all live in `game.cfg`.
 - **Ads and in-app purchases ready, but off.** AdMob (with UMP consent) and Google Play Billing are wired behind small services; while switched off, the SDKs are not even in the build.
 - **Agent-friendly.** [CLAUDE.md](CLAUDE.md) gives AI coding agents (Claude Code, Codex, Gemini) the rules, layout and definition of done.
@@ -109,6 +121,10 @@ The upload keystore stays outside the repo.
    ```
 
 Nothing signing-related is ever written to the repo. `export_credentials.cfg` (Godot's own store for these, inside `.godot/`), `*.jks` and `*.keystore` are git-ignored.
+
+## Status
+
+Version 1.0.0. CI runs `make test` and `make smoke` on every push. The Android and iOS exports are built locally, not in CI. A Play Store release needs your own keystore and, if you turn ads or purchases on, your own ids.
 
 ## License
 
